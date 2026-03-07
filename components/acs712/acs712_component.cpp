@@ -6,6 +6,7 @@ namespace acs712 {
 void ACS712Sensor::setup() {
   acs_.autoMidPoint();
   ESP_LOGD("acs712", "MidPoint: %d", acs_.getMidPoint());
+  ESP_LOGD("acs712", "Noise mV: %d", ACS->getNoisemV());
 }
 
 void ACS712Sensor::update() {
