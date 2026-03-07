@@ -13,7 +13,7 @@ void ACS712Sensor::update() {
   float average = 0;
   int count = 5;
   for (int i = 0; i < count; i++) {
-    average += acs_.mA_AC();
+    average += acs_.mA_DC();
   }
   float amps = average / count / 1000.0;
   current_sensor->publish_state(amps);
