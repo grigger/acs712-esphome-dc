@@ -2,8 +2,9 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor
 from esphome.const import (
-    CONF_ID, CONF_PIN, CONF_VOLTAGE, UNIT_AMPERE, UNIT_WATT,
-    ICON_CURRENT_AC, ICON_FLASH, DEVICE_CLASS_CURRENT, DEVICE_CLASS_POWER
+    CONF_ID, CONF_PIN, CONF_VOLTAGE, UNIT_AMPERE, UNIT_WATT, UNIT_VOLT,
+    ICON_CURRENT_AC, ICON_FLASH, 
+    DEVICE_CLASS_CURRENT, DEVICE_CLASS_POWER
 )
 
 # Agregamos la dependencia a la biblioteca ACS712
@@ -19,6 +20,7 @@ DEPENDENCIES = []
 # Nombres de los nuevos campos para los sensores hijos
 CONF_CURRENT_SENSOR = "current_sensor"
 CONF_POWER_SENSOR = "power_sensor"
+CONF_VOLTAGE_SENSOR = "voltage_sensor"
 
 # Constantes de configuración originales
 CONF_ADC_BITS = "adc_bits"
@@ -53,7 +55,13 @@ CONFIG_SCHEMA = cv.Schema({
             device_class=DEVICE_CLASS_POWER,
             icon=ICON_FLASH,
     ),
-}).extend(cv.polling_component_schema("15s"))
+    cv.Optional(CONF_VOLTAGE_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_VOLT,
+            accuracy_decimals=2,
+            device_class=DEVICE_CLASS_VOLTAGE,
+            icon=ICON_CURRENT_AC,
+    ),
+}).extend(cv.polling_component_schema("3s"))
 
 async def to_code(config):
     var = cg.new_Pvariable(
@@ -79,3 +87,8 @@ async def to_code(config):
     if CONF_POWER_SENSOR in config:
         power_sensor = await sensor.new_sensor(config[CONF_POWER_SENSOR])
         cg.add(var.set_power_sensor(power_sensor))
+    
+    # Registra el sensor de potencia (watts) si se ha definido en el YAML
+    if CONF_VOLTAGE_SENSOR in config:
+        voltage_sensor = await sensor.new_sensor(config[CONF_VOLTAGE_SENSOR])
+        cg.add(var.set_voltage_sensor(voltage_sensor))
