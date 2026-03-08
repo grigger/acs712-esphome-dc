@@ -28,12 +28,14 @@ class ACS712Sensor : public PollingComponent {
     // Nuevos setters para los sensores configurados desde YAML
     void set_current_sensor(sensor::Sensor *sensor) { current_sensor = sensor; }
     void set_power_sensor(sensor::Sensor *sensor) { power_sensor = sensor; }
+    void set_voltage_sensor(sensor::Sensor *sensor) { voltage_sensor = sensor; }
 
    private:
     ACS712 acs_;
     float line_voltage_;
     sensor::Sensor *current_sensor;
     sensor::Sensor *power_sensor;
+    sensor::Sensor *voltage_sensor;
 };
 
 }  // namespace acs712
