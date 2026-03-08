@@ -59,7 +59,7 @@ CONFIG_SCHEMA = cv.Schema({
             unit_of_measurement=UNIT_VOLT,
             accuracy_decimals=2,
             device_class=DEVICE_CLASS_VOLTAGE,
-            icon=ICON_SINE_WAVE,
+            icon=ICON_SINE_WAVE
     ),
 }).extend(cv.polling_component_schema("3s"))
 
