@@ -3,8 +3,8 @@ import esphome.config_validation as cv
 from esphome.components import sensor
 from esphome.const import (
     CONF_ID, CONF_PIN, CONF_VOLTAGE, UNIT_AMPERE, UNIT_WATT, UNIT_VOLT,
-    ICON_CURRENT_AC, ICON_FLASH, 
-    DEVICE_CLASS_CURRENT, DEVICE_CLASS_POWER
+    ICON_CURRENT_AC, ICON_FLASH, ICON_SINE_WAVE,
+    DEVICE_CLASS_CURRENT, DEVICE_CLASS_POWER, DEVICE_CLASS_VOLTAGE
 )
 
 # Agregamos la dependencia a la biblioteca ACS712
@@ -59,7 +59,7 @@ CONFIG_SCHEMA = cv.Schema({
             unit_of_measurement=UNIT_VOLT,
             accuracy_decimals=2,
             device_class=DEVICE_CLASS_VOLTAGE,
-            icon=ICON_CURRENT_AC,
+            icon=ICON_SINE_WAVE,
     ),
 }).extend(cv.polling_component_schema("3s"))
 
