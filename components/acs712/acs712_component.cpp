@@ -19,6 +19,7 @@ void ACS712Sensor::update() {
   float amps = average / count / 1000.0;
   current_sensor->publish_state(amps);
   power_sensor->publish_state(amps * line_voltage_);
+  voltage_sensor->publish_state(average);
 }
 
 }  // namespace acs712
