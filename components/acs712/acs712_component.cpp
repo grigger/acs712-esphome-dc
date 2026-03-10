@@ -16,7 +16,7 @@ void ACS712Sensor::setup() {
     ESP_LOGCONFIG(TAG, "ACS712 mode: DC");
   }
 
-  ESP_LOGCONFIG(TAG, "  Pin: %u", this->_pin);
+  ESP_LOGCONFIG(TAG, "  Pin: %u", this->pin_);
   ESP_LOGCONFIG(TAG, "  MidPoint: %u", this->acs_.getMidPoint());
   ESP_LOGCONFIG(TAG, "  Noise mV: %u", this->acs_.getNoisemV());
 }
