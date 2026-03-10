@@ -14,6 +14,10 @@ cg.add_library(
     version=">=0.3.0"
 )
 
+CONF_SENSOR_TYPE = "type"
+TYPE_AC = "AC"
+TYPE_DC = "DC"
+
 DEPENDENCIES = []
 #MULTI_CONF = True
 
@@ -40,6 +44,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Required(CONF_ADC_BITS): cv.int_,
     cv.Required(CONF_MV_PER_AMP): cv.float_,
     cv.Required(CONF_LINE_VOLTAGE): cv.float_,
+    cv.Optional(CONF_SENSOR_TYPE, default=TYPE_DC): cv.one_of(TYPE_AC, TYPE_DC, upper=True),
     cv.Optional(CONF_NOISE_MV, default=43): cv.float_,
     cv.Optional(CONF_MID_POINT): cv.int_,
     # Se definen los schemas para los sensores internos
@@ -73,6 +78,9 @@ async def to_code(config):
         config[CONF_LINE_VOLTAGE]
     )
     await cg.register_component(var, config)
+    
+    cg.add(var.set_is_ac(config[CONF_SENSOR_TYPE] == TYPE_AC))
+    
     if CONF_NOISE_MV in config:
         cg.add(var.set_noisemV(config[CONF_NOISE_MV]))
     if CONF_MID_POINT in config:
