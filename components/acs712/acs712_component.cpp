@@ -43,6 +43,8 @@ void ACS712Sensor::update() {
     // amps = average / count / 1000.0;
     amps = this->acs_.mA_DC(100) / 1000.0;
   }
+  
+  if (absolute_) amps = fabsf(amps);
 
   float sensor_output_v = analogReadMilliVolts(this->pin_) / 1000.0f;
   
