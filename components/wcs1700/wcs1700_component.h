@@ -62,7 +62,7 @@ class WCS1700Sensor : public PollingComponent {
     bool manual_midpoint_set_;
     bool manual_noise_set_;
     bool noise_suppress_;
-    uint8_t samples_dc;
+    uint16_t samples_dc;
     uint8_t samples_ac;
     uint16_t freq_dc;
     uint8_t freq_ac;
