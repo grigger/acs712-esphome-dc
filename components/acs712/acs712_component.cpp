@@ -17,8 +17,8 @@ void ACS712Sensor::dump_config() {
                 this->acs_.getMidPoint(),
                 (this->manual_midpoint_set_ ? "manual" : "auto"),
                 this->acs_.getNoisemV(),
-                (this->manual_noise_set_ ? "manual" : "auto")
-                (this->noise_suppress_ ? "yes" : "no");
+                (this->manual_noise_set_ ? "manual" : "auto"),
+                (this->noise_suppress_ ? "yes" : "no"));
   
   if (this->is_ac_) {
     ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current AC line): %.2f", this->acs_.mVNoiseLevel(this->freq_ac, this->samples_ac));
