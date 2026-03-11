@@ -39,7 +39,7 @@ class ACS712Sensor : public PollingComponent {
        this->manual_noise_set_ = true;
     }
     void set_noiseSupress(bool flag) { 
-       acs_.supressNoise(flag); 
+       acs_.suppressNoise(flag); 
        this->noise_suppress_ = flag;
     }
     void set_mid_point(uint16_t mid_point) { 
