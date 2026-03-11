@@ -7,17 +7,19 @@ static const char *const TAG = "wcs1700";
 
 
 void WCS1700Sensor::dump_config() {
-  ESP_LOGCONFIG(TAG, "WCS1700"
-                "  Mode: %s"
+  ESP_LOGCONFIG(TAG, "WCS1700\n"
+                "  Mode: %s\n"
                 "  Pin: %u\n"
                 "  MidPoint: %u (%s)\n"
-                "  Noise mV: %u (%s)\n",
+                "  Noise mV: %u (%s)\n"
+                "  Noise Suppress: (%s)\n",
                 (this->is_ac_ ? "AC" : "DC"),
                 this->pin_,
                 this->acs_.getMidPoint(),
                 (this->manual_midpoint_set_ ? "manual" : "auto"),
                 this->acs_.getNoisemV(),
-                (this->manual_noise_set_ ? "manual" : "auto"));
+                (this->manual_noise_set_ ? "manual" : "auto"),
+                (this->noise_suppress_ ? "yes" : "no"));
   
   if (this->is_ac_) {
     ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current AC line): %.2f", this->acs_.mVNoiseLevel(this->freq_ac, this->samples_ac));
