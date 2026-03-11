@@ -35,7 +35,7 @@ CONF_MID_POINT = "mid_point"
 CONF_ABSOLUTE = "absolute"
 
 # Define el namespace sin puntos
-wcs1700_ns = cg.esphome_ns.namespace("wcs1700_ns")
+wcs1700_ns = cg.esphome_ns.namespace("wcs1700")
 WCS1700Sensor = wcs1700_ns.class_("WCS1700Sensor", cg.PollingComponent)
 
 CONFIG_SCHEMA = cv.Schema({
