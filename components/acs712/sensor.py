@@ -46,7 +46,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Required(CONF_ADC_BITS): cv.int_,
     cv.Required(CONF_MV_PER_AMP): cv.float_,
     cv.Required(CONF_LINE_VOLTAGE): cv.float_,
-    cv.Optional(CONF_NOISE_MV, default=43): cv.float_,
+    cv.Optional(CONF_NOISE_MV): cv.float_,
     cv.Optional(CONF_NOISE_SUPPRESS, default=True): cv.boolean,
     cv.Optional(CONF_SENSOR_TYPE, default=TYPE_DC): cv.one_of(TYPE_AC, TYPE_DC, upper=True),
     cv.Optional(CONF_MID_POINT): cv.int_,
