@@ -1,6 +1,8 @@
 # ACS712 sensor component for esphome
 
-This is based on https://github.com/RobTillaart/ACS712
+This is based on 
+https://github.com/RobTillaart/ACS712 and
+https://github.com/marianomd/acs712-esphome
 
 The code is working on ESP and ACS712-30A.
 
@@ -15,8 +17,8 @@ esphome:
 external_components:
   - source:
       type: git
-      url: https://github.com/marianomd/acs712-esphome
-    components: [acs712]
+      url: https://github.com/grigger/esphome-current-sensors
+    components: [acs712, wcs1700]
 
 sensor:
   - platform: acs712
