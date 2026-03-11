@@ -47,6 +47,7 @@ class ACS712Sensor : public PollingComponent {
        this->manual_midpoint_set_ = true;
     }
     void set_absolute(bool absolute) { absolute_ = absolute; }
+    void set_line_voltage(uint8_t voltage) { this->line_voltage_ = voltage; }
 
     // Nuevos setters para los sensores configurados desde YAML
     void set_current_sensor(sensor::Sensor *sensor) { current_sensor = sensor; }
