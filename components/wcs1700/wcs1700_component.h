@@ -19,6 +19,8 @@ class WCS1700Sensor : public PollingComponent {
            line_voltage_(line_voltage),
            is_ac_(false),
            absolute_(false),
+           manual_midpoint_set_(false),
+           manual_noise_set_(false),
            current_sensor(nullptr),
            power_sensor(nullptr),
            voltage_sensor(nullptr) {}
@@ -28,10 +30,15 @@ class WCS1700Sensor : public PollingComponent {
     void update() override;
 
     void set_is_ac(bool is_ac) { this->is_ac_ = is_ac; }
-    void set_noisemV(float noisemV) { acs_.setNoisemV(noisemV); }
-    void set_noisemVAuto() { acs_.setNoisemV(noisemV); }
+    void set_noisemV(float noisemV) { 
+       acs_.setNoisemV(noisemV);
+       this->manual_noise_set_ = true;
+    }
     void set_noiseSupress(bool flag) { acs_.supressNoise(flag); }
-    void set_mid_point(uint16_t mid_point) { acs_.setMidPoint(mid_point); }
+    void set_mid_point(uint16_t mid_point) { 
+       acs_.setMidPoint(mid_point); 
+       this->manual_midpoint_set_ = true;
+    }
     void set_absolute(bool absolute) { absolute_ = absolute; }
 
     // Nuevos setters para los sensores configurados desde YAML
@@ -45,6 +52,8 @@ class WCS1700Sensor : public PollingComponent {
     float line_voltage_;
     bool is_ac_;
     bool absolute_;
+    bool manual_midpoint_set_;
+    bool manual_noise_set_;
     sensor::Sensor *current_sensor;
     sensor::Sensor *power_sensor;
     sensor::Sensor *voltage_sensor;
