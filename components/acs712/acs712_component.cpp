@@ -23,9 +23,9 @@ void ACS712Sensor::dump_config() {
                 this->acs_.getNoisemV());
   
   if (this->is_ac_) {
-    ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current AC line): %u", this->acs_.mVNoiseLevel(50, 4));
+    ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current AC line): %.2f", this->acs_.mVNoiseLevel(50, 4));
   } else {
-    ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current DC line): %u", this->acs_.mVNoiseLevel(1000, 100));
+    ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current DC line): %.2f", this->acs_.mVNoiseLevel(1000, 100));
   }
 }
 
