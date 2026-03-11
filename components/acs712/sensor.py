@@ -32,6 +32,7 @@ CONF_MV_PER_AMP = "mv_per_amp"
 CONF_LINE_VOLTAGE = "line_voltage"
 CONF_NOISE_MV = "noisemV"
 CONF_MID_POINT = "mid_point"
+CONF_ABSOLUTE = "absolute"
 
 # Define el namespace sin puntos
 acs712_ns = cg.esphome_ns.namespace("acs712")
@@ -44,9 +45,11 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Required(CONF_ADC_BITS): cv.int_,
     cv.Required(CONF_MV_PER_AMP): cv.float_,
     cv.Required(CONF_LINE_VOLTAGE): cv.float_,
-    cv.Optional(CONF_SENSOR_TYPE, default=TYPE_DC): cv.one_of(TYPE_AC, TYPE_DC, upper=True),
     cv.Optional(CONF_NOISE_MV, default=43): cv.float_,
+    cv.Optional(CONF_SENSOR_TYPE, default=TYPE_DC): cv.one_of(TYPE_AC, TYPE_DC, upper=True),
     cv.Optional(CONF_MID_POINT): cv.int_,
+    cv.Optional(CONF_ABSOLUTE, default=False): cv.boolean,
+    
     # Se definen los schemas para los sensores internos
     cv.Optional(CONF_CURRENT_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_AMPERE,
@@ -80,6 +83,8 @@ async def to_code(config):
     await cg.register_component(var, config)
     
     cg.add(var.set_is_ac(config[CONF_SENSOR_TYPE] == TYPE_AC))
+    
+    cg.add(var.set_absolute(config[CONF_ABSOLUTE]))
     
     if CONF_NOISE_MV in config:
         cg.add(var.set_noisemV(config[CONF_NOISE_MV]))
