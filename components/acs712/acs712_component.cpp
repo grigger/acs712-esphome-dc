@@ -19,6 +19,13 @@ void ACS712Sensor::setup() {
   ESP_LOGCONFIG(TAG, "  Pin: %u", this->pin_);
   ESP_LOGCONFIG(TAG, "  MidPoint: %u", this->acs_.getMidPoint());
   ESP_LOGCONFIG(TAG, "  Noise mV: %u", this->acs_.getNoisemV());
+
+  if (this->is_ac_) {
+    ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current AC line): %u", this->acs_.mVNoiseLevel(50, 4));
+  } else {
+    ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current DC line): %u", this->acs_.mVNoiseLevel(1000, 100));
+  }
+  
 }
 
 void ACS712Sensor::update() {
@@ -27,14 +34,14 @@ void ACS712Sensor::update() {
   float amps;
 
   if (this->is_ac_) {
-    amps = this->acs_.mA_AC(50, 4);   // Europe mains
+    amps = this->acs_.mA_AC(50, 4) / 1000.0;   // Europe mains
   } else {
     // for (int i = 0; i < count; i++) {
     //   average += acs_.mA_DC();
     // }
     
     // amps = average / count / 1000.0;
-    amps = this->acs_.mA_DC(100);
+    amps = this->acs_.mA_DC(100) / 1000.0;
   }
 
   float sensor_output_v = analogReadMilliVolts(this->pin_) / 1000.0f;
