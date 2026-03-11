@@ -6,12 +6,6 @@ namespace acs712 {
 static const char *const TAG = "acs712";
 
 void ACS712Sensor::dump_config() {
-  if (this->is_ac_) {
-    ESP_LOGCONFIG(TAG, "ACS712 mode: AC");
-  } else {
-    ESP_LOGCONFIG(TAG, "ACS712 mode: DC");
-  }
-  
   ESP_LOGCONFIG(TAG, "ACS712"
                 "  Mode: %s"
                 "  Pin: %u\n"
