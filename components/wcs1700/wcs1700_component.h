@@ -38,7 +38,10 @@ class WCS1700Sensor : public PollingComponent {
        acs_.setNoisemV(noisemV);
        this->manual_noise_set_ = true;
     }
-    void set_noiseSupress(bool flag) { acs_.supressNoise(flag); }
+    void set_noiseSupress(bool flag) { 
+       acs_.supressNoise(flag); 
+       this->noise_suppress_ = flag;
+    }
     void set_mid_point(uint16_t mid_point) { 
        acs_.setMidPoint(mid_point); 
        this->manual_midpoint_set_ = true;
@@ -58,6 +61,7 @@ class WCS1700Sensor : public PollingComponent {
     bool absolute_;
     bool manual_midpoint_set_;
     bool manual_noise_set_;
+    bool noise_suppress_;
     uint8_t samples_dc;
     uint8_t samples_ac;
     uint8_t freq_dc;
