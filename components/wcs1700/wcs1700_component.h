@@ -23,6 +23,7 @@ class WCS1700Sensor : public PollingComponent {
            power_sensor(nullptr),
            voltage_sensor(nullptr) {}
 
+    void dump_config() override;
     void setup() override;
     void update() override;
 
