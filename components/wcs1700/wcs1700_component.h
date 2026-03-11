@@ -29,6 +29,8 @@ class WCS1700Sensor : public PollingComponent {
 
     void set_is_ac(bool is_ac) { this->is_ac_ = is_ac; }
     void set_noisemV(float noisemV) { acs_.setNoisemV(noisemV); }
+    void set_noisemVAuto() { acs_.setNoisemV(noisemV); }
+    void set_noiseSupress(bool flag) { acs_.supressNoise(flag); }
     void set_mid_point(uint16_t mid_point) { acs_.setMidPoint(mid_point); }
     void set_absolute(bool absolute) { absolute_ = absolute; }
 
