@@ -41,9 +41,9 @@ void WCS1700Sensor::setup() {
 
   if (!this->manual_noise_set_) {
     if (this->is_ac_) {
-      this->acs_.setNoisemV(this->acs_.mVNoiseLevel(this->freq_ac, this->samples_ac)));
+      this->acs_.setNoisemV(this->acs_.mVNoiseLevel(this->freq_ac, this->samples_ac));
     } else {
-      this->acs_.setNoisemV(this->acs_.mVNoiseLevel(this->freq_dc, this->samples_dc)));
+      this->acs_.setNoisemV(this->acs_.mVNoiseLevel(this->freq_dc, this->samples_dc));
     }
   }
 }
