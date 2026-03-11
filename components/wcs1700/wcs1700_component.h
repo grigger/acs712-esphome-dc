@@ -24,7 +24,7 @@ class WCS1700Sensor : public PollingComponent {
            samples_dc(100),
            samples_ac(4),
            freq_dc(1000),
-           freq_ac(4),
+           freq_ac(50),
            current_sensor(nullptr),
            power_sensor(nullptr),
            voltage_sensor(nullptr) {}
@@ -64,7 +64,7 @@ class WCS1700Sensor : public PollingComponent {
     bool noise_suppress_;
     uint8_t samples_dc;
     uint8_t samples_ac;
-    uint8_t freq_dc;
+    uint16_t freq_dc;
     uint8_t freq_ac;
     sensor::Sensor *current_sensor;
     sensor::Sensor *power_sensor;
