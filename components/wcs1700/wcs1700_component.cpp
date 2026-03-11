@@ -6,7 +6,7 @@ namespace wcs1700 {
 static const char *const TAG = "wcs1700";
 
 
-void ACS712Sensor::dump_config() {
+void WCS1700Sensor::dump_config() {
   if (this->is_ac_) {
     this->acs_.autoMidPoint(50, 4);
     ESP_LOGCONFIG(TAG, "WCS1700 mode: AC");
@@ -53,7 +53,7 @@ void WCS1700Sensor::setup() {
   
 }
 
-void ACS712Sensor::update() {
+void WCS1700Sensor::update() {
   float average = 0;
   int count = 100;
   float amps;
