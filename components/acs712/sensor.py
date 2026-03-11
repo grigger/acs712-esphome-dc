@@ -31,6 +31,7 @@ CONF_ADC_BITS = "adc_bits"
 CONF_MV_PER_AMP = "mv_per_amp"
 CONF_LINE_VOLTAGE = "line_voltage"
 CONF_NOISE_MV = "noisemV"
+CONF_NOISE_SUPPRESS = "suppress_noise"
 CONF_MID_POINT = "mid_point"
 CONF_ABSOLUTE = "absolute"
 
@@ -46,6 +47,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Required(CONF_MV_PER_AMP): cv.float_,
     cv.Required(CONF_LINE_VOLTAGE): cv.float_,
     cv.Optional(CONF_NOISE_MV, default=43): cv.float_,
+    cv.Optional(CONF_NOISE_SUPPRESS, default=True): cv.boolean,
     cv.Optional(CONF_SENSOR_TYPE, default=TYPE_DC): cv.one_of(TYPE_AC, TYPE_DC, upper=True),
     cv.Optional(CONF_MID_POINT): cv.int_,
     cv.Optional(CONF_ABSOLUTE, default=False): cv.boolean,
@@ -88,6 +90,9 @@ async def to_code(config):
     
     if CONF_NOISE_MV in config:
         cg.add(var.set_noisemV(config[CONF_NOISE_MV]))
+    
+    cg.add(var.set_noiseSuppress(config[CONF_NOISE_SUPPRESS]))
+    
     if CONF_MID_POINT in config:
         cg.add(var.set_mid_point(config[CONF_MID_POINT]))
     
