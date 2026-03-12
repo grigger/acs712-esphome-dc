@@ -56,11 +56,11 @@ void ACS712Sensor::update() {
   if (absolute_) amps = fabsf(amps);
 
   float sensor_output_v = analogReadMilliVolts(this->pin_) / 1000.0f;
-  sensor_output_v = analogRead(this->pin_);
-  
+
   current_sensor->publish_state(amps);
   power_sensor->publish_state(amps * line_voltage_);
   voltage_sensor->publish_state(sensor_output_v);
+  voltage_sensor->publish_state(analogRead(this->pin_));
 }
 
 
