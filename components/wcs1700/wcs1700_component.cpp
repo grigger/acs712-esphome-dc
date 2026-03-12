@@ -29,7 +29,7 @@ void WCS1700Sensor::dump_config() {
 }
 
 void WCS1700Sensor::setup() {
-  this->set_update_interval(3000);
+  this->set_update_interval(5000);
 
   if (!this->manual_midpoint_set_) {
     if (this->is_ac_) {
