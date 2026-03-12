@@ -28,7 +28,7 @@ void ACS712Sensor::dump_config() {
 }
 
 void ACS712Sensor::setup() {
-  this->set_update_interval(3000);
+  // this->set_update_interval(3000);
 
   if (!this->manual_midpoint_set_) {
     if (this->is_ac_) {
