@@ -21,10 +21,8 @@ class WCS1700Sensor : public PollingComponent {
            absolute_(false),
            manual_midpoint_set_(false),
            manual_noise_set_(false),
-           samples_dc(100),
-           samples_ac(4),
-           freq_dc(1000),
-           freq_ac(50),
+           samples_(4), // default 100 for dc, 4 for AC
+           freq_(50), // default 1000 for dc, 50 for AC
            current_sensor(nullptr),
            power_sensor(nullptr),
            voltage_sensor(nullptr) {}
@@ -48,6 +46,8 @@ class WCS1700Sensor : public PollingComponent {
     }
     void set_absolute(bool absolute) { absolute_ = absolute; }
     void set_line_voltage(uint8_t voltage) { this->line_voltage_ = voltage; }
+    void set_samples(uint16_t samples) { this->samples_ = samples; }
+    void set_freq(uint16_t freq) { this->freq_ = freq; }
 
     // Nuevos setters para los sensores configurados desde YAML
     void set_current_sensor(sensor::Sensor *sensor) { current_sensor = sensor; }
@@ -65,8 +65,8 @@ class WCS1700Sensor : public PollingComponent {
     bool noise_suppress_;
     uint16_t samples_dc;
     uint8_t samples_ac;
-    uint16_t freq_dc;
-    uint8_t freq_ac;
+    uint16_t samples_;
+    uint16_t freq_;
     sensor::Sensor *current_sensor;
     sensor::Sensor *power_sensor;
     sensor::Sensor *voltage_sensor;
