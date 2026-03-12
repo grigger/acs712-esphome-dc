@@ -60,7 +60,7 @@ void ACS712Sensor::update() {
   current_sensor->publish_state(amps);
   power_sensor->publish_state(amps * line_voltage_);
   voltage_sensor->publish_state(sensor_output_v);
-  voltage_sensor->publish_state(analogRead(this->pin_));
+  // voltage_sensor->publish_state(analogRead(this->pin_));
 }
 
 
