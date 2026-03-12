@@ -12,39 +12,35 @@ void WCS1700Sensor::dump_config() {
                 "  Pin: %u\n"
                 "  MidPoint: %u (%s)\n"
                 "  Noise mV: %u (%s)\n"
-                "  Noise Suppress: (%s)\n",
+                "  Noise Suppress: (%s)\n"
+                "  Noise Samples Qty: (%u)\n"
+                "  Frequency: (%u)\n",
                 (this->is_ac_ ? "AC" : "DC"),
                 this->pin_,
                 this->acs_.getMidPoint(),
                 (this->manual_midpoint_set_ ? "manual" : "auto"),
                 this->acs_.getNoisemV(),
                 (this->manual_noise_set_ ? "manual" : "auto"),
-                (this->noise_suppress_ ? "yes" : "no"));
-  
-  if (this->is_ac_) {
-    ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current AC line): %.2f", this->acs_.mVNoiseLevel(this->freq_ac, this->samples_ac));
-  } else {
-    ESP_LOGCONFIG(TAG, "  Noise mV (auto, 0-current DC line): %.2f", this->acs_.mVNoiseLevel(this->freq_dc, this->samples_dc));
-  }
+                (this->noise_suppress_ ? "yes" : "no"),
+                 this->samples_,
+                 this->freq_);
+
+    ESP_LOGCONFIG(TAG, "  -> Current noise mV(instant, recomputed): %.2f", this->acs_.mVNoiseLevel(this->freq_, this->samples_));
 }
 
 void WCS1700Sensor::setup() {
-  this->set_update_interval(5000);
+  //this->set_update_interval(5000);
 
   if (!this->manual_midpoint_set_) {
     if (this->is_ac_) {
-      this->acs_.autoMidPoint(this->freq_ac, this->samples_ac);
+      this->acs_.autoMidPoint(this->freq_, this->samples_);
     } else {
-      this->acs_.autoMidPointDC(this->samples_dc);
+      this->acs_.autoMidPointDC(this->samples_);
     }
   }
 
   if (!this->manual_noise_set_) {
-    if (this->is_ac_) {
-      this->acs_.setNoisemV(this->acs_.mVNoiseLevel(this->freq_ac, this->samples_ac));
-    } else {
-      this->acs_.setNoisemV(this->acs_.mVNoiseLevel(this->freq_dc, this->samples_dc));
-    }
+    this->acs_.setNoisemV(this->acs_.mVNoiseLevel(this->freq_, this->samples_));
   }
 }
 
@@ -52,9 +48,10 @@ void WCS1700Sensor::update() {
   float amps;
 
   if (this->is_ac_) {
-    amps = this->acs_.mA_AC(this->freq_ac, this->samples_ac) / 1000.0;
+    //amps = this->acs_.mA_AC(this->freq_, this->samples_) / 1000.0;
+    amps = this->acs_.mA_AC_sampling(this->freq_, this->samples_) / 1000.0;
   } else {
-    amps = this->acs_.mA_DC(this->samples_dc) / 1000.0;
+    amps = this->acs_.mA_DC(this->samples_) / 1000.0;
   }
   
   if (absolute_) amps = fabsf(amps);
