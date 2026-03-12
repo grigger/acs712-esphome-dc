@@ -102,18 +102,18 @@ async def to_code(config):
 
     if CONF_SAMPLES in config:
         cg.add(var.set_samples(config[CONF_SAMPLES]))
-    else
+    else:
         if config[CONF_SENSOR_TYPE] == TYPE_AC:
             cg.add(var.set_samples(4))
-        else
+        else:
             cg.add(var.set_samples(100))
 
     if CONF_FREQ in config:
         cg.add(var.set_freq(config[CONF_FREQ]))
-    else
+    else:
         if config[CONF_SENSOR_TYPE] == TYPE_AC:
             cg.add(var.set_freq(50))
-        else
+        else:
             cg.add(var.set_freq(1000))
     
     # Registra el sensor de corriente (amperes) si se ha definido en el YAML
