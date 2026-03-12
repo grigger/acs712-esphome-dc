@@ -21,10 +21,8 @@ class ACS712Sensor : public PollingComponent {
            absolute_(false),
            manual_midpoint_set_(false),
            manual_noise_set_(false),
-           samples_dc(100),
-           samples_ac(4),
-           freq_dc(1000),
-           freq_ac(50),
+           samples(4), // default 100 for dc, 4 for AC
+           freq(50), // default 1000 for dc, 50 for AC
            current_sensor(nullptr),
            power_sensor(nullptr),
            voltage_sensor(nullptr) {}
@@ -48,14 +46,14 @@ class ACS712Sensor : public PollingComponent {
     }
     void set_absolute(bool absolute) { absolute_ = absolute; }
     void set_line_voltage(uint8_t voltage) { this->line_voltage_ = voltage; }
-    void set_samples(uint16_5 samples) {
+    void set_samples(uint16_t samples) {
        if (this->is_ac_) {
           this->samples_ac = samples;
        } else {
           this->samples_dc = samples;
        }
     }
-    void set_freq(uint16_5 freq) {
+    void set_freq(uint16_t freq) {
        if (this->is_ac_) {
           this->freq_ac = freq;
        } else {
