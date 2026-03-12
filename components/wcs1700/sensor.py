@@ -34,6 +34,8 @@ CONF_NOISE_MV = "noisemV"
 CONF_NOISE_SUPPRESS = "suppress_noise"
 CONF_MID_POINT = "mid_point"
 CONF_ABSOLUTE = "absolute"
+CONF_SAMPLES = "samples_count"
+CONF_FREQ = "frequency"
 
 # Define el namespace sin puntos
 wcs1700_ns = cg.esphome_ns.namespace("wcs1700")
@@ -51,6 +53,8 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_SENSOR_TYPE, default=TYPE_DC): cv.one_of(TYPE_AC, TYPE_DC, upper=True),
     cv.Optional(CONF_MID_POINT): cv.int_,
     cv.Optional(CONF_ABSOLUTE, default=False): cv.boolean,
+    cv.Optional(CONF_SAMPLES): cv.float_,
+    cv.Optional(CONF_FREQ): cv.float_,
     
     # Se definen los schemas para los sensores internos
     cv.Optional(CONF_CURRENT_SENSOR): sensor.sensor_schema(
@@ -95,6 +99,22 @@ async def to_code(config):
         
     if CONF_MID_POINT in config:
         cg.add(var.set_mid_point(config[CONF_MID_POINT]))
+
+    if CONF_SAMPLES in config:
+        cg.add(var.set_samples(config[CONF_SAMPLES]))
+    else
+        if config[CONF_SENSOR_TYPE] == TYPE_AC:
+            cg.add(var.set_samples(4))
+        else
+            cg.add(var.set_samples(100))
+
+    if CONF_FREQ in config:
+        cg.add(var.set_freq(config[CONF_FREQ]))
+    else
+        if config[CONF_SENSOR_TYPE] == TYPE_AC:
+            cg.add(var.set_freq(50))
+        else
+            cg.add(var.set_freq(1000))
     
     # Registra el sensor de corriente (amperes) si se ha definido en el YAML
     if CONF_CURRENT_SENSOR in config:
