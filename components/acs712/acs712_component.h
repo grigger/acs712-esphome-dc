@@ -21,8 +21,8 @@ class ACS712Sensor : public PollingComponent {
            absolute_(false),
            manual_midpoint_set_(false),
            manual_noise_set_(false),
-           samples(4), // default 100 for dc, 4 for AC
-           freq(50), // default 1000 for dc, 50 for AC
+           samples_(4), // default 100 for dc, 4 for AC
+           freq_(50), // default 1000 for dc, 50 for AC
            current_sensor(nullptr),
            power_sensor(nullptr),
            voltage_sensor(nullptr) {}
@@ -46,20 +46,8 @@ class ACS712Sensor : public PollingComponent {
     }
     void set_absolute(bool absolute) { absolute_ = absolute; }
     void set_line_voltage(uint8_t voltage) { this->line_voltage_ = voltage; }
-    void set_samples(uint16_t samples) {
-       if (this->is_ac_) {
-          this->samples_ac = samples;
-       } else {
-          this->samples_dc = samples;
-       }
-    }
-    void set_freq(uint16_t freq) {
-       if (this->is_ac_) {
-          this->freq_ac = freq;
-       } else {
-          this->freq_dc = freq;
-       }
-    }
+    void set_samples(uint16_t samples) { this->samples_ = samples; }
+    void set_freq(uint16_t freq) { this->freq_ = freq; }
 
     // Nuevos setters para los sensores configurados desde YAML
     void set_current_sensor(sensor::Sensor *sensor) { current_sensor = sensor; }
@@ -75,10 +63,8 @@ class ACS712Sensor : public PollingComponent {
     bool manual_midpoint_set_;
     bool manual_noise_set_;
     bool noise_suppress_;
-    uint16_t samples_dc;
-    uint8_t samples_ac;
-    uint16_t freq_dc;
-    uint8_t freq_ac;
+    uint16_t samples_;
+    uint16_t freq_;
     sensor::Sensor *current_sensor;
     sensor::Sensor *power_sensor;
     sensor::Sensor *voltage_sensor;
