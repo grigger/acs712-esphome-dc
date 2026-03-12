@@ -51,7 +51,8 @@ void ACS712Sensor::update() {
   float amps;
 
   if (this->is_ac_) {
-    amps = this->acs_.mA_AC(this->freq_ac, this->samples_ac) / 1000.0;
+    //amps = this->acs_.mA_AC(this->freq_ac, this->samples_ac) / 1000.0;
+    amps = this->acs_.mA_AC_sampling(this->freq_ac, this->samples_ac) / 1000.0;
   } else {
     amps = this->acs_.mA_DC(this->samples_dc) / 1000.0;
   }
