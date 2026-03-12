@@ -48,6 +48,20 @@ class ACS712Sensor : public PollingComponent {
     }
     void set_absolute(bool absolute) { absolute_ = absolute; }
     void set_line_voltage(uint8_t voltage) { this->line_voltage_ = voltage; }
+    void set_samples(uint16_5 samples) {
+       if (this->is_ac_) {
+          this->samples_ac = samples;
+       } else {
+          this->samples_dc = samples;
+       }
+    }
+    void set_freq(uint16_5 freq) {
+       if (this->is_ac_) {
+          this->freq_ac = freq;
+       } else {
+          this->freq_dc = freq;
+       }
+    }
 
     // Nuevos setters para los sensores configurados desde YAML
     void set_current_sensor(sensor::Sensor *sensor) { current_sensor = sensor; }
