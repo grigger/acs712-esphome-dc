@@ -75,7 +75,7 @@ CONFIG_SCHEMA = cv.Schema({
             device_class=DEVICE_CLASS_VOLTAGE,
             icon="mdi:sine-wave"
     ),
-}).extend(cv.polling_component_schema("3s"))
+}).extend(cv.polling_component_schema("10s"))
 
 async def to_code(config):
     var = cg.new_Pvariable(
