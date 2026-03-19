@@ -58,7 +58,7 @@ void WCS1700Sensor::update() {
 
   float effective_line_voltage = this->line_voltage_;
   if (this->line_voltage_entity_ != nullptr && this->line_voltage_entity_->has_state()) {
-    float dynamic_line_voltage = this->line_voltage_source_->get_state();
+    float dynamic_line_voltage = this->line_voltage_entity_->get_state();
     if (!std::isnan(dynamic_line_voltage)) {
       effective_line_voltage = dynamic_line_voltage;
     }
