@@ -30,6 +30,7 @@ CONF_VOLTAGE_SENSOR = "voltage_sensor"
 CONF_ADC_BITS = "adc_bits"
 CONF_MV_PER_AMP = "mv_per_amp"
 CONF_LINE_VOLTAGE = "line_voltage"
+CONF_LINE_VOLTAGE_ENTITY = "line_voltage_entity"
 CONF_NOISE_MV = "noisemV"
 CONF_NOISE_SUPPRESS = "suppress_noise"
 CONF_MID_POINT = "mid_point"
@@ -48,6 +49,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Required(CONF_ADC_BITS): cv.int_,
     cv.Required(CONF_MV_PER_AMP): cv.float_,
     cv.Required(CONF_LINE_VOLTAGE): cv.float_,
+    cv.Optional(CONF_LINE_VOLTAGE_ENTITY): cv.use_id(sensor.Sensor),
     cv.Optional(CONF_NOISE_MV): cv.float_,
     cv.Optional(CONF_NOISE_SUPPRESS, default=True): cv.boolean,
     cv.Optional(CONF_SENSOR_TYPE, default=TYPE_DC): cv.one_of(TYPE_AC, TYPE_DC, upper=True),
@@ -115,6 +117,11 @@ async def to_code(config):
             cg.add(var.set_freq(50))
         else:
             cg.add(var.set_freq(1000))
+
+    
+    if CONF_LINE_VOLTAGE_ENTITY in config:
+        line_voltage_entity = await cg.get_variable(config[CONF_LINE_VOLTAGE_ENTITY])
+        cg.add(var.set_line_voltage_source(line_voltage_entity))
     
     # Registra el sensor de corriente (amperes) si se ha definido en el YAML
     if CONF_CURRENT_SENSOR in config:
