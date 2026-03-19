@@ -45,7 +45,7 @@ void WCS1700Sensor::setup() {
 }
 
 void WCS1700Sensor::update() {
-  float amps;
+  float amps = 0.0f;
 
   if (this->is_ac_) {
     //amps = this->acs_.mA_AC(this->freq_, this->samples_) / 1000.0;
@@ -56,10 +56,15 @@ void WCS1700Sensor::update() {
   
   if (absolute_) amps = fabsf(amps);
 
+  float effective_line_voltage = this->line_voltage_;
+  if (this->line_voltage_entity_ != nullptr && this->line_voltage_entity_->has_state()) {
+    effective_line_voltage = this->line_voltage_entity_->get_state();
+  }
+
   float sensor_output_v = analogReadMilliVolts(this->pin_) / 1000.0f;
   
   current_sensor->publish_state(amps);
-  power_sensor->publish_state(amps * line_voltage_);
+  power_sensor->publish_state(amps * effective_line_voltage);
   voltage_sensor->publish_state(sensor_output_v);
 }
 
