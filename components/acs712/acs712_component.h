@@ -17,6 +17,7 @@ class ACS712Sensor : public PollingComponent {
            acs_(pin, voltage, adc_bits, mV_per_amp),
            pin_(pin),
            line_voltage_(line_voltage),
+           line_voltage_entity_(nullptr),
            is_ac_(false),
            absolute_(false),
            manual_midpoint_set_(false),
@@ -46,6 +47,7 @@ class ACS712Sensor : public PollingComponent {
     }
     void set_absolute(bool absolute) { absolute_ = absolute; }
     void set_line_voltage(uint8_t voltage) { this->line_voltage_ = voltage; }
+    void set_line_voltage_entity(sensor::Sensor *sensor) { this->line_voltage_entity_ = sensor; }
     void set_samples(uint16_t samples) { this->samples_ = samples; }
     void set_freq(uint16_t freq) { this->freq_ = freq; }
 
@@ -58,6 +60,7 @@ class ACS712Sensor : public PollingComponent {
     ACS712 acs_;
     uint8_t pin_;
     float line_voltage_;
+    sensor::Sensor *line_voltage_entity_;
     bool is_ac_;
     bool absolute_;
     bool manual_midpoint_set_;
