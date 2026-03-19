@@ -44,10 +44,10 @@ void ACS712Sensor::setup() {
 }
 
 void ACS712Sensor::update() {
-  float amps;
+  float amps = 0.0f;
 
   if (this->is_ac_) {
-    //amps = this->acs_.mA_AC(this->freq_ac, this->samples_ac) / 1000.0;
+    //amps = this->acs_.mA_AC(this->freq_, this->samples_) / 1000.0;
     amps = this->acs_.mA_AC_sampling(this->freq_, this->samples_) / 1000.0;
   } else {
     amps = this->acs_.mA_DC(this->samples_) / 1000.0;
@@ -55,12 +55,19 @@ void ACS712Sensor::update() {
   
   if (absolute_) amps = fabsf(amps);
 
-  float sensor_output_v = analogReadMilliVolts(this->pin_) / 1000.0f;
+  float effective_line_voltage = this->line_voltage_;
+  if (this->line_voltage_entity_ != nullptr && this->line_voltage_entity_->has_state()) {
+    float dynamic_line_voltage = this->line_voltage_entity_->get_state();
+    if (!std::isnan(dynamic_line_voltage)) {
+      effective_line_voltage = dynamic_line_voltage;
+    }
+  }
 
+  float sensor_output_v = analogReadMilliVolts(this->pin_) / 1000.0f;
+  
   current_sensor->publish_state(amps);
-  power_sensor->publish_state(amps * line_voltage_);
+  power_sensor->publish_state(amps * effective_line_voltage);
   voltage_sensor->publish_state(sensor_output_v);
-  // voltage_sensor->publish_state(analogRead(this->pin_));
 }
 
 
