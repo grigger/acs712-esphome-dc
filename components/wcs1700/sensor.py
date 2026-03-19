@@ -121,7 +121,7 @@ async def to_code(config):
     
     if CONF_LINE_VOLTAGE_ENTITY in config:
         line_voltage_entity = await cg.get_variable(config[CONF_LINE_VOLTAGE_ENTITY])
-        cg.add(var.set_line_voltage_source(line_voltage_entity))
+        cg.add(var.set_line_voltage_entity(line_voltage_entity))
     
     # Registra el sensor de corriente (amperes) si se ha definido en el YAML
     if CONF_CURRENT_SENSOR in config:
